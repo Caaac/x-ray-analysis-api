@@ -1,0 +1,10 @@
+
+URL = ''
+
+BUCKET = ''
+
+ACCESS_KEY = ''
+
+SECRET_KEY = ''
+
+REGION = ''

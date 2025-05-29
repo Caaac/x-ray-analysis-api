@@ -1,5 +1,5 @@
 from pydantic import BaseModel, HttpUrl
 
-class Xray(BaseModel):
+class SXray(BaseModel):
   callback_url: HttpUrl
   

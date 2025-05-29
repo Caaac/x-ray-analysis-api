@@ -1,7 +1,8 @@
 import json
 
 from typing import Annotated, Optional
-from src.schemas.xray import Xray
+from src.schemas.xray import SXray
+from src.aws.client import s3_client
 
 from fastapi import (
   HTTPException, 
@@ -12,11 +13,7 @@ from fastapi import (
   Form
 )
 
-
-
-
 router = APIRouter()
-
 
 @router.post("/xray", name="TEST", tags=["xray"])
 async def xray(
@@ -25,7 +22,7 @@ async def xray(
   ):
     try:
       json_data = json.loads(json_data)
-      validation = Xray(**json_data)
+      validation = SXray(**json_data)
       
       image = xray_image.file
       image_name = xray_image.filename
@@ -36,8 +33,10 @@ async def xray(
       print(validation, '\n\n')
       
       print(xray_image)
+
+      print(type(s3_client))
       
-      
+      await s3_client.upload_file("/Users/admin/Dev/projects/x-ray-analysis/api/src/test.txt")
 
       return {"message": "success"}
     except Exception as e:
