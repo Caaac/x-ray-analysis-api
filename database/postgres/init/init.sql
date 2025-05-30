@@ -1,0 +1,4 @@
+-- Example
+-- CREATE TABLE IF NOT EXISTS test (
+--   NAME VARCHAR(255)
+-- );

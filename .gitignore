@@ -1,7 +1,13 @@
+.env
+.db.env
 venv
 config.py
 .DS_Store
 
+# DB instance
+postgres_data/
+
 # Cache
-__pycache__/*
+__pycache__/
+__pycache__
 *.pyc

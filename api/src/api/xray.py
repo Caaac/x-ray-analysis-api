@@ -2,9 +2,10 @@ import json
 
 from typing import Annotated, Optional
 from src.schemas.xray import SXray
-from src.aws.client import s3_client
+from src.aws import s3_client
 
 from fastapi import (
+  Response,
   HTTPException, 
   UploadFile, 
   APIRouter, 
@@ -27,18 +28,12 @@ async def xray(
       image = xray_image.file
       image_name = xray_image.filename
       
-      with open(f"{image_name}", "wb") as f:
-        f.write(image.read())
-      
-      print(validation, '\n\n')
-      
-      print(xray_image)
-
-      print(type(s3_client))
-      
-      await s3_client.upload_file("/Users/admin/Dev/projects/x-ray-analysis/api/src/test.txt")
-
-      return {"message": "success"}
+      await s3_client.upload_file_object(image, image_name)
+            
+      return Response(
+        content=json.dumps({"status": "success"}), 
+        status_code=201
+      )
     except Exception as e:
       raise HTTPException(status_code=400, detail=str(e))
     

@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./api:/app
+    depends_on:
+      - db
+    command: python -m src.main
+    networks:
+      - api_network
+  
+  db:
+    image: postgres:17.5
+    ports:
+      - "5435:5432"
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_USER}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./database/postgres/init:/docker-entrypoint-initdb.d
+      - ./database/postgres/postgres_data:/var/lib/postgresql/data
+    networks:
+      - api_network
+
+networks:
+  api_network:
+    driver: bridge
