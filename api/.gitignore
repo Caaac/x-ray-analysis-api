@@ -1,8 +1,12 @@
+.env
 venv
-config.py
 .DS_Store
+*.ipynb
+
+# migrations
+src/alembic/versions/*.py
 
 # Cache
-__pycache__/*
+__pycache__/
 __pycache__
 *.pyc

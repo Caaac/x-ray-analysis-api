@@ -17,3 +17,13 @@ docker-compose -f docker-compose.prod.yml up --build
 ```sh
 docker-compose -f docker-compose.dev.yml up --build
 ```
+
+2. Произвести миграцию БД
+
+```sh
+alembic revision --autogenerate -m "init"
+```
+
+```sh
+alembic upgrade head
+```

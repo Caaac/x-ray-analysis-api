@@ -1,3 +1,4 @@
+import os
 import asyncio
 # import aiofiles
 from contextlib import asynccontextmanager
@@ -57,17 +58,27 @@ class S3Client:
             self,
             file: Annotated[BinaryIO, Doc("The standard Python file object (non-async).")],
             file_name: Annotated[str, Doc("The name of the file to upload.")],
-    ):
+            **kwargs
+    ) -> dict:
+        key = 'upload/' + file_name
+        
+        for key, valie in kwargs.items():
+            match key:
+                case 'path':
+                    key = os.path.join(valie, file_name)
+        
         try:
             async with self.get_client() as client:
                 await client.put_object(
                     Bucket=self.bucket_name,
-                    Key=file_name,
+                    Key=key,
                     Body=file
                 )
             print(f"File {file_name} uploaded to {self.bucket_name}")
+            return {"path": key}
         except ClientError as e:
             print(f"Error uploading file: {e}")
+            return {}
 
 
     async def delete_file(self, object_name: str):
