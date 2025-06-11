@@ -8,8 +8,8 @@ from sqlalchemy import insert
 
 from src.schemas.xray import SXray
 from src.aws import s3_client
-from src.models import XrayImageOrm
-from src.database import async_session_factory
+# from api.src.db.models import XrayImageOrm
+from src.db.database import async_session_factory
 
 from fastapi import (
     Response,
@@ -50,14 +50,14 @@ async def xray(
         print(validation.callback_url)
         print(type(validation.callback_url))
 
-        async with async_session_factory() as session:
-            stmt = insert(XrayImageOrm).values(
-                url_from=str(validation.callback_url),
-                image_path=aws_pathname,
-                type='chest',
-            )
-            await session.execute(stmt)
-            await session.commit()
+        # async with async_session_factory() as session:
+        #     stmt = insert(XrayImageOrm).values(
+        #         url_from=str(validation.callback_url),
+        #         image_path=aws_pathname,
+        #         type='chest',
+        #     )
+        #     await session.execute(stmt)
+        #     await session.commit()
 
         return Response(
             content=json.dumps({"status": "success", "result": result}),

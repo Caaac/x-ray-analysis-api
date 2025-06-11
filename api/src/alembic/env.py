@@ -9,9 +9,9 @@ from alembic import context
 import sys
 print(sys.path)
 
-from config import settings
-from models import XrayImageOrm, XrayImagePredictedOrm
-from database import Base
+from src.config import settings
+from src.db.models import *
+from src.db.database import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
