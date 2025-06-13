@@ -4,7 +4,7 @@ from src.api import api_router
 
 app = FastAPI()
 app.include_router(api_router)
-
+app.router.encoding = 'utf-8'
 
 def main():
     uvicorn.run("src.main:app", host="0.0.0.0", port=8000, reload=True)

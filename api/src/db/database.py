@@ -1,5 +1,7 @@
 import asyncio
-from typing import Annotated
+from typing import Annotated, Optional
+
+from pydantic import BaseModel
 
 from sqlalchemy import String, create_engine, text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
@@ -22,19 +24,19 @@ async_session_factory = async_sessionmaker(async_engine)
 
 
 class Base(DeclarativeBase):
-    pass
+    schema: Optional[BaseModel] = None
+    schema_rel: Optional[BaseModel] = None
 
+    def to_schema(self) -> Optional[BaseModel]:
+        if (not self.schema is None):
+            return self.schema(**self.__dict__)
+        return None
 
-
-
-
-
-
-
-
-
-
-
+    def to_schema_rel(self) -> Optional[BaseModel]:
+        if (not self.schema is None):
+            print(self.__dict__)
+            return self.schema_rel.model_validate(self.__dict__, from_attributes=True)
+        return None
 
 
 
@@ -58,10 +60,10 @@ async def get_test():
         r = session.execute(text("SELECT VERSION()"))
         print(r.one())
 
+
 async def main():
-    
+
     await get_test()
 
 if __name__ == "__main__":
-	asyncio.run(main())
-
+    asyncio.run(main())

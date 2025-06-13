@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 from api.src.db.database import async_session_factory
 
 class AbstractRepository(ABC):
-    
     @abstractmethod
     async def add():
         raise NotImplementedError
