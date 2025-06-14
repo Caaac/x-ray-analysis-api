@@ -2,7 +2,24 @@
 
 ### Подготовительный этап
 
-1. В проекте имеются файлы, начинающиеся на `__tmpl__`. Переменные в них необходимо заполнить и стереть префикс.
+1. Необходимо в корневой директории склонированного репозитория создать файл `.env` со следующим содержимым:
+    ```.env
+    DEBUG=False
+
+    # Database
+    DB_HOST=
+    DB_PORT=
+    DB_NAME=
+    DB_USER=
+    DB_PASSWORD=
+
+    # AWS
+    AWS_URL=
+    AWS_BUCKET= 
+    AWS_ACCESS_KEY=
+    AWS_SECRET_KEY=
+    AWS_REGION=
+    ```
 
 ### Запуск docker-compose
 
@@ -18,7 +35,7 @@ docker-compose -f docker-compose.prod.yml up --build
 docker-compose -f docker-compose.dev.yml up --build
 ```
 
-2. Произвести миграцию БД
+### Миграция БД
 
 ```sh
 alembic revision --autogenerate -m "init"
