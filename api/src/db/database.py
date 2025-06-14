@@ -20,7 +20,10 @@ async_engine = create_async_engine(
 )
 
 sync_session_factory = sessionmaker(sync_engine)
-async_session_factory = async_sessionmaker(async_engine)
+async_session_factory = async_sessionmaker(
+    async_engine,
+    expire_on_commit=False
+)
 
 
 class Base(DeclarativeBase):
@@ -34,7 +37,6 @@ class Base(DeclarativeBase):
 
     def to_schema_rel(self) -> Optional[BaseModel]:
         if (not self.schema is None):
-            print(self.__dict__)
             return self.schema_rel.model_validate(self.__dict__, from_attributes=True)
         return None
 
