@@ -1,7 +1,10 @@
 .env
+.venv
 venv
 .DS_Store
 *.ipynb
+
+producer_test.py
 
 # migrations
 src/alembic/versions/*.py

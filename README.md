@@ -19,6 +19,12 @@
     AWS_ACCESS_KEY=
     AWS_SECRET_KEY=
     AWS_REGION=
+
+    # Message Broker
+    MB_URL=
+    MB_PORT=
+    MB_USER=
+    MB_PASSWORD=
     ```
 
 ### Запуск docker-compose
