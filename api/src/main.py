@@ -40,7 +40,7 @@ app.router.encoding = 'utf-8'
 
 def main():
     uvicorn.run("src.main:app", host="0.0.0.0",
-                port=8000, reload=True, log_config=None)
+                port=8000, reload=settings.DEBUG, log_config=None)
 
 
 if __name__ == "__main__":

@@ -34,13 +34,13 @@
 Боевая версия
 
 ```sh
-docker-compose -f docker-compose.prod.yml up --build
+docker-compose -f docker-compose.yml up --build
 ```
 
 Дев версия
 
 ```sh
-docker-compose -f docker-compose.dev.yml up --build
+docker-compose -f docker-compose.override.yml up --build
 ```
 
 ### Миграция БД
