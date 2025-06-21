@@ -25,6 +25,8 @@
     MB_PORT=
     MB_USER=
     MB_PASSWORD=
+    MB_PRODUCER_QUEUE=
+    MB_CONSUMER_QUEUE=
     ```
 
 ### Запуск docker-compose

@@ -1,22 +1,17 @@
-import os
-import uuid
 import json
 
-from datetime import datetime
-from fastapi import UploadFile, HTTPException
-from typing import Annotated, Optional, Union
+from fastapi import UploadFile
 
 from src.schemas.xray import SRequsetXray
+from src.schemas.broker import SXrayMessageResponse
 from src.utils.repository import AbstractRepository
 from src.db.database import async_session_factory
 from src.db.models import XRayRequestOrm, FileOrm, XRayFileOrm
-from src.aws import s3_client
 from src.services.aws import AWSService
 from src.services.brocker import BrokerService
-# from src.rabbitmq.producer import producer_connection
 
 
-class RequestService:
+class PredictService:
     def __init__(self, request_repository: AbstractRepository):
         self.request_repository: AbstractRepository = request_repository()
 
@@ -64,7 +59,7 @@ class RequestService:
 
             session.add(new_request)
             await session.commit()
-            
+
             for xfile in new_request.xray_files:
                 await producer_dep.send_message(
                     json.dumps({
@@ -76,3 +71,11 @@ class RequestService:
             return new_request.id
 
         raise Exception('Something went wrong')
+
+    @staticmethod
+    async def set_predicted_result(request: SXrayMessageResponse):
+        # return await self.request_repository.set_predicted_result(request_id, result)
+        ...
+
+    # async def get_with_files(self, id: int):
+    #     return await self.request_repository.get_with_files(id)

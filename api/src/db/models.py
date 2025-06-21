@@ -81,9 +81,9 @@ class PredictedClassOrm(Base):
         back_populates="classes"
     )
     
-    class_info: Mapped["PredictedClassesOrm"] = relationship()
+    class_info: Mapped["PredictedClassifiedOrm"] = relationship()
 
-class PredictedClassesOrm(Base):
+class PredictedClassifiedOrm(Base):
     __tablename__ = 'mws_classified'
 
     id: Mapped[intpk]

@@ -1,13 +1,13 @@
 import os
 import asyncio
+import logging
 # import aiofiles
 from contextlib import asynccontextmanager
 from typing import Annotated, BinaryIO
 from typing_extensions import Doc
-from fastapi import UploadFile, File, HTTPException
 from aiobotocore.session import get_session
-from botocore.exceptions import ClientError
 from botocore.client import Config
+from botocore.exceptions import ClientError
 
 
 class S3Client:
@@ -27,13 +27,28 @@ class S3Client:
             "config": Config(signature_version="s3"),
         }
         self.bucket_name = bucket_name
-        self.session = get_session()
-
+        try:
+            self.session = get_session()
+            # logging.error(111)
+        except Exception as e:
+            # pass
+            logging.exception(e)
+            logging.error(type(e))
+            logging.error(e)
+            logging.error(e.__dict__)
 
     @asynccontextmanager
     async def get_client(self):
         async with self.session.create_client("s3", **self.config) as client:
             yield client
+            # try:
+            #     logging.info("qwere")
+            # except Exception as e:
+            #     # pass
+            #     logging.exception(e)
+            #     logging.error(type(e))
+            #     logging.error(e)
+            #     logging.error(e.__dict__)
             
             
     async def upload_file(
@@ -110,10 +125,10 @@ async def main():
     #     bucket_name=BUCKET,
     #     region_name=REGION,
     # )
-
-    # await s3_client.upload_file("test.txt")
+   
+    # # await s3_client.upload_file("test.txt")
     # await s3_client.get_file("test.txt", "text_local_file.txt")
-    # await s3_client.delete_file("test.txt")
+    # # await s3_client.delete_file("test.txt")
     pass
 
 

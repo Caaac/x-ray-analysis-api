@@ -21,6 +21,6 @@ producer_connection: RMQProducer = RMQProducer(
         "login": settings.MB_USER,
         "password": settings.MB_PASSWORD
     },
-    queue_name="xray_illnes_predict",
-    routing_key="xray_illnes_predict",
+    queue_name=settings.MB_PRODUCER_QUEUE,
+    routing_key=settings.MB_PRODUCER_QUEUE,
 )

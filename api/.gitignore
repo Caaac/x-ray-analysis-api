@@ -3,7 +3,10 @@
 venv
 .DS_Store
 *.ipynb
+logs/*
 
+test.txt
+test.ipynb
 producer_test.py
 
 # migrations
