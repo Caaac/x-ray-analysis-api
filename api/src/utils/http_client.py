@@ -29,8 +29,20 @@ class HttpClient:
                 headers=self.headers,
                 **kwargs
             ) as response:
-                response.raise_for_status()
-
+                responce_data = await response.text()
                 if response.headers.get("Content-Type", "").startswith("application/json"):
-                    return await response.json()
-                return await response.text()
+                    response_data = await response.json()
+
+                if response.status >= 400:
+                    # TODO make custom exception with message and body
+                    raise aiohttp.ClientResponseError(
+                        request_info=response.request_info,
+                        history=response.history,
+                        status=response.status,
+                        message=responce_data,
+                        headers=response.headers,
+                        # body=responce_data
+                    )
+                return response_data
+                
+                
