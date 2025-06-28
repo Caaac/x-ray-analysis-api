@@ -1,8 +1,9 @@
 import json
+import uuid
 
 from fastapi import UploadFile
 
-from src.schemas.xray import SRequsetXray
+from src.schemas.xray import SRequsetXray, SResponceXray
 from src.schemas.broker import SXrayMessageResponse
 from src.utils.repository import AbstractRepository
 from src.db.database import async_session_factory
@@ -20,7 +21,7 @@ class PredictService:
         request_data: SRequsetXray,
         xray_images: list[UploadFile],
         producer_dep: BrokerService
-    ) -> int:
+    ) -> SResponceXray:
 
         if len(set([f.name for f in request_data.files])) != len(request_data.files):
             raise Exception('Duplicate file names')
@@ -28,6 +29,7 @@ class PredictService:
         async with async_session_factory() as session:
             new_request = XRayRequestOrm(
                 callback_url=str(request_data.callback_url),
+                guid=str(uuid.uuid4()),
                 xray_files=[]
             )
 
@@ -46,14 +48,17 @@ class PredictService:
                 await session.flush()
 
                 context = None
+                hms_file_id = None
                 for f in request_data.files:
                     if f.name == image.filename:
                         context = f.context
+                        hms_file_id = f.hms_file_id
 
                 new_request.xray_files.append(
                     XRayFileOrm(
                         context_type=context,
-                        file_id=new_file.id
+                        file_id=new_file.id,
+                        hms_file_id=hms_file_id
                     )
                 )
 
@@ -67,9 +72,8 @@ class PredictService:
                         'xray_file_id': xfile.id
                     })
                 )
-
-            return new_request.id
-
+                
+            return SResponceXray(guid=new_request.guid)
         raise Exception('Something went wrong')
 
     @staticmethod

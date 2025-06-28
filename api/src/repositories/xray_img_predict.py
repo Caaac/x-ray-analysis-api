@@ -45,7 +45,8 @@ class XRayRequestRepository(SqlAlchemyRepository):
                 )
 
                 return_result = {
-                    "request_id": xray_img_info.request.id,
+                    "request_guid": xray_img_info.request.guid,
+                    "hms_file_id": xray_img_info.hms_file_id,
                     "file_name": xray_img_info.file_data.file_name,
                     "callback_url": xray_img_info.request.callback_url,
                     "predicted_class": []

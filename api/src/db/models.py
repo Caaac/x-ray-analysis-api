@@ -19,6 +19,7 @@ class XRayRequestOrm(Base):
 
     id: Mapped[intpk]
     callback_url: Mapped[str]
+    guid: Mapped[str]
     created_at: Mapped[created_at]
     
     xray_files: Mapped[list["XRayFileOrm"]] = relationship(
@@ -32,6 +33,7 @@ class XRayFileOrm(Base):
     context_type: Mapped[xray_context]
     request_id: Mapped[int] = mapped_column(ForeignKey("mws_xray_request.id", ondelete="CASCADE"))
     file_id: Mapped[int] = mapped_column(ForeignKey("mws_file.id", ondelete="CASCADE"))
+    hms_file_id: Mapped[int | None]
     
     request: Mapped["XRayRequestOrm"] = relationship(
         back_populates="xray_files"

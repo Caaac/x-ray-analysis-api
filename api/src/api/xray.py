@@ -1,4 +1,5 @@
 import json
+import logging
 
 from typing import Annotated, Union
 from typing_extensions import Doc
@@ -32,13 +33,14 @@ async def xray(
         if not isinstance(xray_images, list):
             xray_images = [xray_images]
         
-        req_id = await predict_service.add_with_files(SRequsetXray(**json_data), xray_images, producer_dep)
-
+        req = await predict_service.add_with_files(SRequsetXray(**json_data), xray_images, producer_dep)
+        
         return Response(
-            content=json.dumps({"status": "success", "data": {"request_id": req_id}}),
+            content=json.dumps({"status": "success", "data": {"request_guid": str(req.guid)}}),
             status_code=201
         )
     except Exception as e:
+        logging.exception(e)
         return Response(
             content=json.dumps({"status": "error", "message": str(e)}),
             status_code=400
