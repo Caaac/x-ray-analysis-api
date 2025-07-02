@@ -21,7 +21,7 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S',
     handlers=[
         logging.FileHandler(f'./logs/{datetime.now().strftime("%Y-%m-%d")}.log'),
-        logging.StreamHandler()  # Добавляем вывод в консоль
+        logging.StreamHandler()
     ],
     # filename=f'./logs/{datetime.now().strftime("%Y-%m-%d")}.log',
     # filemode='a'

@@ -1,4 +1,3 @@
-import json
 import uuid
 
 from fastapi import UploadFile
@@ -10,6 +9,7 @@ from src.db.database import async_session_factory
 from src.db.models import XRayRequestOrm, FileOrm, XRayFileOrm
 from src.services.aws import AWSService
 from src.services.brocker import BrokerService
+from src.schemas.broker import SXrayMessageRequest
 
 
 class PredictService:
@@ -66,11 +66,12 @@ class PredictService:
             await session.commit()
 
             for xfile in new_request.xray_files:
+                message = SXrayMessageRequest(
+                    xray_file_id=xfile.id,
+                    aws_path=aws_pathname
+                )
                 await producer_dep.send_message(
-                    json.dumps({
-                        'request_id': new_request.id,
-                        'xray_file_id': xfile.id
-                    })
+                    message.model_dump_json()
                 )
                 
             return SResponceXray(guid=new_request.guid)

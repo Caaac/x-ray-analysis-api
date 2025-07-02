@@ -22,6 +22,8 @@ class BrokerService:
     async def xray_predict_handler(message: aio_pika.abc.AbstractIncomingMessage):
 
         obj = json.loads(message.body.decode())
+        
+        logging.info(f"Received message from RabbitMQ: {obj}")
 
         service = PredictResultService(XRayRequestRepository)
         predict_info = await service.setPredict(SXrayMessageResponse(**obj))
