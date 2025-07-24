@@ -1,4 +1,4 @@
-## Архитектура
+## Architecture
 
 ```mermaid
 flowchart LR
@@ -33,11 +33,11 @@ flowchart LR
     click mywebstor.hms "https://github.com/MyWebstor/mywebstor.hms" "Описание S3 хранилища"
 ```
 
-## Запуск
+## Launch
 
-### Подготовительный этап
+### Preparatory stage
 
-1. Необходимо в корневой директории склонированного репозитория создать файл `.env` со следующим содержимым:
+1. It is necessary to create a `.env` file with the following contents in the root directory of the cloned repository:
     ```.env
     DEBUG=False
 
@@ -72,13 +72,13 @@ flowchart LR
 docker-compose -f docker-compose.yml up --build
 ```
 
-Дев версия
+Developer version
 
 ```sh
 docker-compose -f docker-compose.override.yml up --build
 ```
 
-### Миграция БД
+### Database migration
 
 ```sh
 alembic revision --autogenerate -m "init"
