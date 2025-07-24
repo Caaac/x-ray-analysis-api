@@ -64,9 +64,9 @@ flowchart LR
     MB_CONSUMER_QUEUE=
     ```
 
-### Запуск docker-compose
+### Launch docker-compose
 
-Боевая версия
+ Product version
 
 ```sh
 docker-compose -f docker-compose.yml up --build
